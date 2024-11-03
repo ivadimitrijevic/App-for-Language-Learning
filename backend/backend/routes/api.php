@@ -3,6 +3,9 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\LanguageLevelController;
+use App\Http\Controllers\TypeOfLearningController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +31,13 @@ Route::get('/getUser/{id}', [UserController::class, 'getUser']);
 Route::get('/getGenders', [GenderController::class, 'getAll']);
 
 Route::get('/getRoles', [RoleController::class, 'getAll']);
+
+Route::get('/getLanguageLevels', [LanguageLevelController::class, 'getAll']);
+Route::post('/createLanguageLevel', [LanguageLevelController::class, 'create']);
+
+Route::get('/getTypesOfLearning', [TypeOfLearningController::class, 'getAll']);
+Route::post('/createTypeOfLearning', [TypeOfLearningController::class, 'create']);
+
+Route::get('/getKnownLanguages/{userId}', [LanguageController::class, 'getKnownLanguagesFromUser']);
+Route::get('/getLearningLanguages/{userId}', [LanguageController::class, 'getLearningLanguagesFromUser']);
+Route::post('/createLanguage', [LanguageController::class, 'create']);
