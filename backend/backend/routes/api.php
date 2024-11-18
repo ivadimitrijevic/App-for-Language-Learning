@@ -6,6 +6,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LanguageLevelController;
 use App\Http\Controllers\TypeOfLearningController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\FriendController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/getUser/{id}', [UserController::class, 'getUser']);
+Route::get('/getUsers', [UserController::class, 'getUsers']);
+Route::post('/updateUser/{id}', [UserController::class, 'update']);
 
 Route::get('/getGenders', [GenderController::class, 'getAll']);
 
@@ -41,3 +46,16 @@ Route::post('/createTypeOfLearning', [TypeOfLearningController::class, 'create']
 Route::get('/getKnownLanguages/{userId}', [LanguageController::class, 'getKnownLanguagesFromUser']);
 Route::get('/getLearningLanguages/{userId}', [LanguageController::class, 'getLearningLanguagesFromUser']);
 Route::post('/createLanguage', [LanguageController::class, 'create']);
+Route::delete('/deleteLanguage/{id}', [LanguageController::class, 'deleteLanguage']);
+Route::post('/updateLanguage/{id}', [LanguageController::class, 'updateLanguage']);
+
+Route::get('/getFriends/{userId}', [FriendController::class, 'getFriends']);
+Route::post('/createFriend', [FriendController::class, 'createFriend']);
+Route::post('/updateFriend/{id}', [FriendController::class, 'updateFriend']);
+
+Route::get('/getRatings/{userId}', [RatingController::class, 'getRatings']);
+Route::post('/createRating', [RatingController::class, 'createRating']);
+
+Route::get('/getNotifications/{userId}', [NotificationController::class, 'getNotifications']);
+Route::post('/createNotification', [NotificationController::class, 'createNotification']);
+Route::post('/updateNotification/{id}', [NotificationController::class, 'updateNotification']);

@@ -7,6 +7,7 @@ use App\Models\Language;
 use App\Models\User;
 use App\Models\LanguageLevel;
 use App\Models\TypeOfLearning;
+use App\Models\LanguagesTypesOfLearning;
 use App\Http\Resources\LanguageResource;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -85,4 +86,51 @@ class LanguageController extends Controller
 
             return response()->json(new LanguageResource($language));
         }
+
+    /**
+     * Method for deleting language
+     */
+    public function deleteLanguage($id)
+    {
+        try {
+            DB::table('languages_types_of_learning')->where('language_id', $id)->delete();
+            $language = Language::findOrFail($id);
+            $language->delete();
+            return response()->json(['response' => 'Language deleted!', 'success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['response' => 'Language cannot be deleted! ' . $e->getMessage(), 'success' => false]);
+        }
+    }
+
+    public function updateLanguage(Request $request, $id)
+    {
+    $validatedData = $request->validate([
+            'levelId' => 'required|integer',
+            'types' => 'required|array',
+            'types.*' => 'required|integer'
+        ]);
+        try {
+            $language = Language::findOrFail($id);
+
+            $language->level_id = $request->input('levelId');
+
+            $language->save();
+
+            DB::table('languages_types_of_learning')->where('language_id', $id)->delete();
+
+            foreach ($request->input('types') as $typeId) {
+                DB::table('languages_types_of_learning')->insert([
+                    'language_id' => $id,
+                    'type_id' => $typeId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            return response()->json(['response' => 'Language updated successfully!', 'success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['response' => 'Language could not be updated! ' . $e->getMessage(), 'success' => false]);
+        }
+    }
+
 }

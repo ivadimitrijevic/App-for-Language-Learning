@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Language;
+use App\Models\Friend;
+use App\Models\Rating;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
@@ -69,7 +72,37 @@ class User extends Authenticatable
     }
 
     public function language()
-        {
-            return $this->hasMany(Language::class, 'user_id');
-        }
+    {
+        return $this->hasMany(Language::class, 'user_id');
+    }
+
+    public function friends1()
+    {
+        return $this->hasMany(Friend::class, 'user_id');
+    }
+
+    public function friends2()
+    {
+        return $this->hasMany(Friend::class, 'friend_id');
+    }
+
+    public function rating1()
+    {
+        return $this->hasMany(Rating::class, 'from_user');
+    }
+
+    public function rating2()
+    {
+        return $this->hasMany(Rating::class, 'to_user');
+    }
+
+    public function notification1()
+    {
+        return $this->hasMany(Notification::class, 'from_user');
+    }
+
+    public function notification2()
+    {
+        return $this->hasMany(Notification::class, 'to_user');
+    }
 }
