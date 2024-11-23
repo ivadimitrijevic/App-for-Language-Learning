@@ -9,6 +9,8 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,7 +53,7 @@ Route::post('/updateLanguage/{id}', [LanguageController::class, 'updateLanguage'
 
 Route::get('/getFriends/{userId}', [FriendController::class, 'getFriends']);
 Route::post('/createFriend', [FriendController::class, 'createFriend']);
-Route::post('/updateFriend/{id}', [FriendController::class, 'updateFriend']);
+Route::post('/updateFriend', [FriendController::class, 'updateFriend']);
 
 Route::get('/getRatings/{userId}', [RatingController::class, 'getRatings']);
 Route::post('/createRating', [RatingController::class, 'createRating']);
@@ -59,3 +61,13 @@ Route::post('/createRating', [RatingController::class, 'createRating']);
 Route::get('/getNotifications/{userId}', [NotificationController::class, 'getNotifications']);
 Route::post('/createNotification', [NotificationController::class, 'createNotification']);
 Route::post('/updateNotification/{id}', [NotificationController::class, 'updateNotification']);
+
+Route::post('/createEvent', [EventController::class, 'createEvent']);
+Route::post('/updateEvent/{id}', [EventController::class, 'updateEvent']);
+Route::get('/getEvents', [EventController::class, 'getEvents']);
+
+
+Route::post('/createEventUser', [EventUserController::class, 'createEventUser']);
+Route::get('/getUserEvents/{userId}', [EventUserController::class, 'getUserEvents']);
+Route::get('/getEventUsers/{eventId}', [EventUserController::class, 'getEventUsers']);
+Route::delete('/deleteEventUser', [EventUserController::class, 'removeUserFromEvent']);

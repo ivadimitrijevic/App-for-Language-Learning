@@ -105,16 +105,19 @@ class FriendController extends Controller
         return response()->json(new FriendResource($friend));
     }
 
-    public function updateFriend(Request $request, $id)
+    public function updateFriend(Request $request)
     {
         $validatedData = $request->validate([
             'active' => 'required|integer',
+            'fromUser' => 'required|integer',
+            'toUser' => 'required|integer',
         ]);
         try {
-            $friend = Friend::findOrFail($id);
+            $friend = Friend::where('user_id', $validatedData['fromUser'])
+                        ->where('friend_id', $validatedData['toUser'])
+                        ->firstOrFail();
 
             $friend->active = $request->input('active');
-
             $friend->save();
 
             return response()->json(['response' => 'Friendship updated successfully!', 'success' => true, 'friend' => new FriendResource($friend)]);

@@ -11,6 +11,7 @@ use App\Models\Language;
 use App\Models\Friend;
 use App\Models\Rating;
 use App\Models\Notification;
+use App\Models\Event;
 
 class User extends Authenticatable
 {
@@ -104,5 +105,15 @@ class User extends Authenticatable
     public function notification2()
     {
         return $this->hasMany(Notification::class, 'to_user');
+    }
+
+    public function eventMaker()
+    {
+        return $this->hasMany(Event::class, 'event_maker');
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_user');
     }
 }

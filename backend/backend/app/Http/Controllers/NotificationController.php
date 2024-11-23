@@ -67,7 +67,7 @@ class NotificationController extends Controller
 
                 $notification->save();
 
-                return response()->json(['response' => 'Notification updated successfully!', 'success' => true]);
+                return response()->json(new NotificationResource($notification));
             } catch (\Exception $e) {
                 return response()->json(['response' => 'Notification could not be updated! ' . $e->getMessage(), 'success' => false]);
             }
