@@ -12,6 +12,7 @@ use App\Models\Friend;
 use App\Models\Rating;
 use App\Models\Notification;
 use App\Models\Event;
+use App\Models\Message;
 
 class User extends Authenticatable
 {
@@ -115,5 +116,15 @@ class User extends Authenticatable
     public function events()
     {
         return $this->belongsToMany(Event::class, 'event_user');
+    }
+
+    public function receiver()
+    {
+        return $this->hasMany(Message::class, 'to_user');
+    }
+
+    public function sender()
+    {
+        return $this->hasMany(Message::class, 'from_user');
     }
 }

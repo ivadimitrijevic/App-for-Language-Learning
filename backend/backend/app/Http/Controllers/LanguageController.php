@@ -83,6 +83,7 @@ class LanguageController extends Controller
                 ]);
             }
 
+            $language->load('types');
 
             return response()->json(new LanguageResource($language));
         }

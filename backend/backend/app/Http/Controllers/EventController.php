@@ -94,69 +94,46 @@ class EventController extends Controller
     }
     }
 
-//     public function getEvents(Request $request)
-//         {
-//             $city = $request->query('city');
-//             $country = $request->query('country');
-//             $language = $request->query('language');
-//
-//             $events = event::with(['language' => function ($query) use ($language) {
-// //                 $query->where('lan', false);
-//                 if ($language) {
-//                     $query->whereRaw('LOWER(name) = ?', [strtolower($language)]);
-//                 }
-//             }])
-//                 ->when($city, function ($query, $city) {
-//                     $query->where('city', $city);
-//                 })
-//                 ->when($country, function ($query, $country) {
-//                     $query->where('country', $country);
-//                 })
-//                 ->get()
-// //                 ->filter(function ($user) {
-// //                     return $user->language->isNotEmpty();
-// //                 })
-//                 ;
-//
-// //             $formattedUsers = $users->map(function ($user) {
-// //                 return [
-// //                     'id' => $user->id,
-// //                     'name' => $user->name,
-// //                     'surname' => $user->surname,
-// //                     'city' => $user->city,
-// //                     'country' => $user->country,
-// //                     'email' => $user->email,
-// //                     'learningLanguages' => LanguageResource::collection($user->language),
-// //                 ];
-// //             })->values();
-//
-//             return response()->json(EventResource::collection($events));
-//         }
+    public function getEvents(Request $request)
+    {
+        $perPage = 9;
+        $page = $request->get('page', 1);
 
-public function getEvents(Request $request)
-{
-    $city = $request->query('city');
-    $country = $request->query('country');
-    $language = $request->query('language');
-    $date = $request->query('date');
+        $city = $request->query('city');
+        $country = $request->query('country');
+        $language = $request->query('language');
+        $date = $request->query('date');
 
-    $events = Event::query()
-        ->when($city, function ($query, $city) {
-            $query->whereRaw('LOWER(city) = ?', [strtolower($city)]);
-        })
-        ->when($country, function ($query, $country) {
-            $query->whereRaw('LOWER(country) = ?', [strtolower($country)]);
-        })
-        ->when($language, function ($query, $language) {
-            $query->whereRaw('LOWER(language) = ?', [strtolower($language)]);
-        })
-        ->when($date, function ($query, $date) {
-                    $query->whereDate('date', '=', $date);
-                })
-        ->whereDate('date', '>=', now()->toDateString())
-        ->get();
+        $query = Event::query()
+            ->select('events.id', 'events.name', 'events.city', 'events.country', 'events.language', 'events.date', 'events.description', 'events.address', 'events.max_people', 'events.time', 'events.event_maker', 'events.picture')
+            ->distinct()
+            ->when($city, function ($query, $city) {
+                $query->whereRaw('LOWER(city) = ?', [strtolower($city)]);
+            })
+            ->when($country, function ($query, $country) {
+                $query->whereRaw('LOWER(country) = ?', [strtolower($country)]);
+            })
+            ->when($language, function ($query, $language) {
+                $query->whereRaw('LOWER(language) = ?', [strtolower($language)]);
+            })
+            ->when($date, function ($query, $date) {
+                $query->whereDate('date', '=', $date);
+            })
+            ->whereDate('date', '>=', now()->toDateString());
 
-    return response()->json(EventResource::collection($events));
-}
+        $total = $query->count();
+        $events = $query->skip(($page - 1) * $perPage)
+                        ->take($perPage)
+                        ->get();
 
+        $formattedEvents = EventResource::collection($events);
+
+        return response()->json([
+            'currentPage' => $page,
+            'lastPage' => ceil($total / $perPage),
+            'perPage' => $perPage,
+            'total' => $total,
+            'events' => $formattedEvents,
+        ]);
+    }
 }

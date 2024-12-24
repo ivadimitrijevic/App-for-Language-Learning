@@ -145,44 +145,166 @@ class UserController extends Controller
             return response()->json(['success' => true, 'response' => 'You have successfully changed your information!', 'user' => new UserResource($user)]);
         }
 
-    public function getUsers(Request $request)
-    {
-        $city = $request->query('city');
-        $country = $request->query('country');
-        $language = $request->query('language');
+        public function getUsers(Request $request)
+        {
+            $perPage = 9;
+            $page = $request->get('page', 1);
 
-        $users = User::with(['language' => function ($query) use ($language) {
-            $query->where('know', false);
-            if ($language) {
-                $query->whereRaw('LOWER(name) = ?', [strtolower($language)]);
-            }
-        }])
-            ->when($city, function ($query, $city) {
-                $query->where('city', $city);
-            })
-            ->when($country, function ($query, $country) {
-                $query->where('country', $country);
-            })
-            ->get()
-            ->filter(function ($user) {
-                return $user->language->isNotEmpty();
+            $city = $request->query('city');
+            $country = $request->query('country');
+            $language = $request->query('language');
+            $currentUserId = $request->query('currentUserId');
+
+            $query = User::query()
+                ->select('users.id', 'users.name', 'users.surname', 'users.city', 'users.country', 'users.email')
+                ->distinct()
+                ->join('languages', 'users.id', '=', 'languages.user_id')
+                ->where('users.active', true)
+                ->where('languages.know', false)
+                ->when($language, function ($query, $language) {
+                    $query->whereRaw('LOWER(languages.name) = ?', [strtolower($language)]);
+                })
+                ->when($city, function ($query, $city) {
+                    $query->where('users.city', $city);
+                })
+                ->when($country, function ($query, $country) {
+                    $query->where('users.country', $country);
+                })
+                ->when($currentUserId, function ($query, $currentUserId) {
+                            $query->where('users.id', '!=', $currentUserId);
+                        });
+
+            $total = $query->count();
+            $users = $query->skip(($page - 1) * $perPage)
+                           ->take($perPage)
+                           ->get();
+
+            $formattedUsers = $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'surname' => $user->surname,
+                    'city' => $user->city,
+                    'country' => $user->country,
+                    'email' => $user->email,
+                    'learningLanguages' => LanguageResource::collection($user->language),
+                ];
             });
 
-        $formattedUsers = $users->map(function ($user) {
-            return [
-                'id' => $user->id,
-                'name' => $user->name,
-                'surname' => $user->surname,
-                'city' => $user->city,
-                'country' => $user->country,
-                'email' => $user->email,
-                'learningLanguages' => LanguageResource::collection($user->language),
+            return response()->json([
+                'currentPage' => $page,
+                'lastPage' => ceil($total / $perPage),
+                'perPage' => $perPage,
+                'total' => $total,
+                'formattedUsers' => $formattedUsers,
+            ]);
+        }
+
+        public function getAllUsers(Request $request)
+        {
+            $perPage = 10;
+            $page = $request->get('page', 1);
+
+            $term = $request->query('term');
+            $onlyActive = $request->query('onlyActive');
+
+            $usersQuery = User::query()->where('role_id', 2);
+
+            if (!empty($term)) {
+                $usersQuery->where(function ($query) use ($term) {
+                    $query->where('name', 'LIKE', "%{$term}%")
+                          ->orWhere('surname', 'LIKE', "%{$term}%")
+                          ->orWhere('email', 'LIKE', "%{$term}%");
+                });
+            }
+
+            if ($onlyActive === 'true') {
+                $usersQuery->where('active', true);
+            }
+
+            $paginatedUsers = $usersQuery->paginate($perPage, ['*'], 'page', $page);
+
+            $formattedUsers = $paginatedUsers->getCollection()->map(function ($user) {
+                $averageRating = Rating::where('to_user', $user->id)->avg('rating');
+                $averageRating = $averageRating ? round($averageRating, 1) : null;
+
+                return array_merge(
+                    (new UserResource($user))->toArray(request()),
+                    ['averageRating' => $averageRating]
+                );
+            });
+
+            $response = [
+                'currentPage' => $paginatedUsers->currentPage(),
+                'lastPage' => $paginatedUsers->lastPage(),
+                'perPage' => $paginatedUsers->perPage(),
+                'total' => $paginatedUsers->total(),
+                'users' => $formattedUsers,
             ];
-        })->values();
 
-        return response()->json($formattedUsers);
+            return response()->json($response);
+        }
+
+
+//      public function getAllUsers(Request $request)
+//         {
+//             $perPage = 10;
+//             $page = $request->get('page', 1);
+//
+//             $term = $request->query('term');
+//             $onlyActive = $request->query('onlyActive');
+//             $usersQuery = User::query()->where('role_id', 2);
+//
+//             if (!empty($term)) {
+//                     $usersQuery->where(function ($query) use ($term) {
+//                         $query->where('name', 'LIKE', "%{$term}%")
+//                               ->orWhere('surname', 'LIKE', "%{$term}%")
+//                               ->orWhere('email', 'LIKE', "%{$term}%");
+//                     });
+//                 }
+//
+//             if ($onlyActive === 'true') {
+//                 $usersQuery->where('active', true);
+//             }
+//
+//                 $users = $usersQuery->get();
+//
+//              $formattedUsers = $users->map(function ($user) {
+//                  $averageRating = Rating::where('to_user', $user->id)->avg('rating');
+//                  $averageRating = $averageRating ? round($averageRating, 1) : null;
+//
+//                  return array_merge(
+//                      (new UserResource($user))->toArray(request()),
+//                      ['averageRating' => $averageRating]
+//                  );
+//              });
+//
+//              return response()->json($formattedUsers);
+//         }
+
+    public function updateUserActiveStatus(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'active' => 'required|boolean',
+        ]);
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $user->active = $validated['active'];
+        $user->save();
+
+        $averageRating = Rating::where('to_user', $id)->avg('rating');
+        $averageRating = $averageRating ? round($averageRating, 1) : null;
+
+        $userResource = new UserResource($user);
+
+        $userData = $userResource->toArray(request());
+        $userData['averageRating'] = $averageRating;
+        return response()->json(['user' => $userData]);
     }
-
-
 
 }

@@ -29,7 +29,7 @@ class UserResource extends JsonResource
             'role' => new RoleResource($this->role),
             'description' => $this->resource->description,
             'email' => $this->resource->email,
-            'active' => $this->resource->active,
+            'active' => $this->resource->active ? true : false,
         ];
     }
 }

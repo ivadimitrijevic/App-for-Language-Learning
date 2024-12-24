@@ -9,6 +9,7 @@ use App\Models\Rating;
 use App\Http\Resources\FriendResource;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class FriendController extends Controller
 {
@@ -24,8 +25,10 @@ class FriendController extends Controller
          ->where('active', true)
          ->get();
 
+         $userId = (int)$userId;
+
          $friendsWithReviews = $friendships->map(function ($friendship) use ($userId) {
-             $otherUserId = $friendship->user_id === $userId ? $friendship->friend_id : $friendship->user_id;
+             $otherUserId = ($friendship->user_id === $userId) ? $friendship->friend_id : $friendship->user_id;
 
              $leftReview = Rating::where('from_user', $userId)
                                  ->where('to_user', $otherUserId)
@@ -41,45 +44,6 @@ class FriendController extends Controller
 
          return response()->json(['friends' => $friendsWithReviews]);
      }
-
-
-//      public function getFriends($userId)
-//      {
-//          $friendships = Friend::where(function ($query) use ($userId) {
-//              $query->where('user_id', $userId)
-//                    ->orWhere('friend_id', $userId);
-//          })
-//          ->where('active', true)
-//          ->get()
-//          ->map(function ($friendship) use ($userId) {
-//              // Identifikovanje druge osobe u prijateljstvu
-//              $otherUserId = $friendship->user_id === $userId ? $friendship->friend_id : $friendship->user_id;
-//
-//              // Provera da li postoji recenzija
-//              $leftReview = Rating::where('from_user', $userId)
-//                                  ->where('to_user', $otherUserId)
-//                                  ->exists();
-//
-//              // Dodavanje `leftReview` polja
-//              $friendship->leftReview = $leftReview;
-//
-//              return $friendship;
-//          });
-//
-//          return response()->json(['friends' => FriendResource::collection($friendships)]);
-//      }
-
-//     public function getFriends($userId)
-//         {
-//         $friendships = Friend::where(function ($query) use ($userId) {
-//                 $query->where('user_id', $userId)
-//                       ->orWhere('friend_id', $userId);
-//             })
-//             ->where('active', true)
-//             ->get();
-//
-//             return response()->json(['friends' => FriendResource::collection($friendships)]);
-//         }
 
     public function createFriend(Request $request)
     {

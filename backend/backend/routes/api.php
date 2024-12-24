@@ -11,6 +11,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventUserController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,9 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/getUser/{id}', [UserController::class, 'getUser']);
 Route::get('/getUsers', [UserController::class, 'getUsers']);
+Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
 Route::post('/updateUser/{id}', [UserController::class, 'update']);
+Route::post('/updateUserActiveStatus/{id}', [UserController::class, 'updateUserActiveStatus']);
 
 Route::get('/getGenders', [GenderController::class, 'getAll']);
 
@@ -41,9 +44,13 @@ Route::get('/getRoles', [RoleController::class, 'getAll']);
 
 Route::get('/getLanguageLevels', [LanguageLevelController::class, 'getAll']);
 Route::post('/createLanguageLevel', [LanguageLevelController::class, 'create']);
+Route::post('/updateLanguageLevel/{id}', [LanguageLevelController::class, 'updateLanguageLevel']);
+Route::post('/updateOrderLanguageLevels', [LanguageLevelController::class, 'updateOrder']);
 
 Route::get('/getTypesOfLearning', [TypeOfLearningController::class, 'getAll']);
 Route::post('/createTypeOfLearning', [TypeOfLearningController::class, 'create']);
+Route::post('/updateTypeOfLearning/{id}', [TypeOfLearningController::class, 'updateTypeOfLearning']);
+Route::post('/updateOrderTypesOfLearning', [TypeOfLearningController::class, 'updateOrder']);
 
 Route::get('/getKnownLanguages/{userId}', [LanguageController::class, 'getKnownLanguagesFromUser']);
 Route::get('/getLearningLanguages/{userId}', [LanguageController::class, 'getLearningLanguagesFromUser']);
@@ -70,4 +77,7 @@ Route::get('/getEvents', [EventController::class, 'getEvents']);
 Route::post('/createEventUser', [EventUserController::class, 'createEventUser']);
 Route::get('/getUserEvents/{userId}', [EventUserController::class, 'getUserEvents']);
 Route::get('/getEventUsers/{eventId}', [EventUserController::class, 'getEventUsers']);
-Route::delete('/deleteEventUser', [EventUserController::class, 'removeUserFromEvent']);
+Route::post('/deleteEventUser', [EventUserController::class, 'removeUserFromEvent']);
+
+Route::post('/messages', [ChatController::class, 'sendMessage']);
+Route::get('/messages/{senderId}/{receiverId}', [ChatController::class, 'getMessagesBetweenUsers']);

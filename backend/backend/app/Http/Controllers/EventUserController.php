@@ -10,6 +10,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class EventUserController extends Controller
 {
@@ -68,7 +69,7 @@ class EventUserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        $events = $user->events;
+        $events = $user->events()->where('date', '>=', Carbon::today())->get();
 
         return response()->json(EventResource::collection($events));
     }
