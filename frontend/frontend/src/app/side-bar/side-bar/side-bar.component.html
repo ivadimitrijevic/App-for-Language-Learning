@@ -1,0 +1,84 @@
+<div id="sidebar">
+  @if (currentUser) {
+    <div class="flex flex-col items-center">
+  <!--    <div>-->
+  <!--      <img-->
+  <!--        *ngIf="!collapsed"-->
+  <!--        src="src/assets/core/icons/tangerine-icons/onegoal-logo-with-text.png"-->
+  <!--        alt="OneGoal logo" />-->
+  <!--      <img-->
+  <!--        *ngIf="collapsed"-->
+  <!--        class="og-logo"-->
+  <!--        src="src/assets/core/icons/tangerine-icons/onegoal-logo.png"-->
+  <!--        alt="OneGoal logo" />-->
+  <!--    </div>-->
+      <div class="mt-14 text-lg">
+        @if (currentUser.role.id === 2) {
+          <a class="menu-item" (click)="navigate('/home')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/home' }">
+            <span class="material-symbols-outlined w-[1.5rem] h-[1.5rem]">
+              home
+            </span>
+            <div class="ml-2">Home</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/events')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/events' }">
+            <span class="material-symbols-outlined">
+              festival
+            </span>
+            <div class="ml-2">Events</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/learners')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/learners' }">
+            <span class="material-symbols-outlined">
+              contacts
+            </span>
+            <div class="ml-2">Learners</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/chat')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/chat' }">
+            <span class="material-symbols-outlined">
+              sms
+            </span>
+            <div class="ml-2">Chat</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/profile')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/profile' }">
+            <span class="material-symbols-outlined w-[1.5rem] h-[1.5rem]">
+              account_circle
+            </span>
+            <div class="ml-2">Profile</div>
+          </a>
+        } @else if (currentUser.role.id === 1) {
+          <a class="menu-item" (click)="navigate('/users')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/home' }">
+            <span class="material-symbols-outlined w-[1.5rem] h-[1.5rem]">
+              account_circle
+            </span>
+            <div class="ml-2">Users</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/language-levels')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/language-levels' }">
+            <span class="material-symbols-outlined  w-[1.5rem] h-[1.5rem]">
+              monitoring
+            </span>
+            <div class="ml-2">Language Levels</div>
+          </a>
+          <a class="menu-item" (click)="navigate('/types-of-learning')"
+             [ngClass]="{ 'text-orange-strong font-bold': selectedPage === '/types-of-learning' }">
+            <span class="material-symbols-outlined  w-[1.5rem] h-[1.5rem]">
+              school
+            </span>
+            <div class="ml-2">Types of Learning</div>
+          </a>
+        }
+        <a class="menu-item mt-32" (click)="logout()">
+            <span class="material-symbols-outlined w-[1.5rem] h-[1.5rem]">
+              logout
+            </span>
+          <div class="ml-2">Log Out</div>
+        </a>
+      </div>
+    </div>
+  }
+</div>

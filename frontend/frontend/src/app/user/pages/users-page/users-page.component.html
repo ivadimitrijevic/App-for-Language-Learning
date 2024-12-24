@@ -1,0 +1,57 @@
+<app-header title="Users"
+>
+  <span class="material-symbols-outlined header-icon">
+    account_circle
+  </span>
+</app-header>
+<div class="users-page-content">
+  <div class="flex justify-between mb-5 px-10 items-center">
+    <input [(ngModel)]="searchTerm" (input)="search()" placeholder="Find by name or email" class="w-56 custom-input">
+    <div class="flex items-center">
+      <button class="mr-2 w-6 h-6 pr-5 bg-lilac-strong hover:bg-lilac border-none text-white rounded"
+              (click)="sortUsers()"
+      >
+        <span class="material-symbols-outlined text-sm font-bold">
+          swap_vert
+        </span>
+      </button>
+      @if (fromHighest) {
+        <div>Sort Highest to Lowest Rating</div>
+      } @else {
+        <div>Sort Lowest to Highest Rating</div>
+      }
+    </div>
+    <mat-slide-toggle [(ngModel)]="onlyActive" (change)="toggleUsers()" class="custom-toggle">See only active users</mat-slide-toggle>
+  </div>
+  @if (users$ | async; as users) {
+    <div class="flex flex-col px-[2rem]">
+      @for (user of users; track $index) {
+        <app-admin-user-card [user]="user"
+                             (returnedUser)="updateUser(true, user.id)"
+                             (removedUser)="updateUser(false, user.id)"
+        ></app-admin-user-card>
+      }
+    </div>
+  }
+  @if (paginationData$ | async; as paginationData) {
+    <div class="flex ml-auto w-fit mr-6 items-center mb-6">
+      <div class="mr-2">Page {{ paginationData.currentPage }} of {{ paginationData.lastPage }}</div>
+      <button [disabled]="paginationData.currentPage === 1" class="arrow-button" (click)="changePage(paginationData.currentPage-1)">
+        <span class="material-symbols-outlined">
+        chevron_left
+      </span>
+      </button>
+      <button [disabled]="paginationData.currentPage === paginationData.lastPage" class="arrow-button" (click)="changePage(paginationData.currentPage+1)">
+        <span class="material-symbols-outlined">
+          chevron_right
+        </span>
+      </button>
+    </div>
+  }
+</div>
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}

@@ -1,0 +1,63 @@
+<app-header [currentUser]="currentUser"
+            title=Learners
+>
+  <span class="material-symbols-outlined header-icon">
+    contacts
+  </span>
+</app-header>
+<div class="learner-page-content">
+  <div class="flex mb-7 px-5 justify-between">
+    <app-select-city [placeholder]="'Search Cities'"
+                     (selectedCityAndCountry)="city = $event.city; country = $event.country"
+    ></app-select-city>
+    <app-select-language [placeholder]="'Search Languages'"
+                         (languageSelected)="language = $event"
+    ></app-select-language>
+    <button (click)="searchLearners()" class="w-[8rem] secondary-button">Search</button>
+    <button (click)="resetLearners()" class="w-[8rem] tertiary-button">Reset</button>
+  </div>
+  @if (learners$ | async; as learners) {
+    <div class="grid grid-cols-3 w-full px-[2rem]">
+      @for (learner of learners; track $index) {
+        <app-learner-card class="w-fit"
+                          [learner]="learner"
+                          (requestSent)="sendRequest($event)"
+                          (openedDetails)="openDetails($event)"
+        ></app-learner-card>
+      }
+    </div>
+  }
+  @if (paginationData$ | async; as paginationData) {
+    <div class="flex ml-auto w-fit mr-6 items-center mb-6">
+      <div class="mr-2">Page {{ paginationData.currentPage }} of {{ paginationData.lastPage }}</div>
+      <button [disabled]="paginationData.currentPage === 1" class="arrow-button" (click)="changePage(paginationData.currentPage-1)">
+        <span class="material-symbols-outlined">
+        chevron_left
+      </span>
+      </button>
+      <button [disabled]="paginationData.currentPage === paginationData.lastPage" class="arrow-button" (click)="changePage(paginationData.currentPage+1)">
+        <span class="material-symbols-outlined">
+          chevron_right
+        </span>
+      </button>
+    </div>
+  }
+</div>
+
+@if (displayDetails) {
+  <app-detailed-learner-card [user]="user$ | async"
+                             [learningLanguages]="learningLanguages$ | async"
+                             [knownLanguages]="knownLanguages$ | async"
+                             [ratings]="ratings$ | async"
+                             [addFriendButton]="displayFriendshipButton"
+                             (closingAction)="displayDetails = false"
+                             (showedComments)="loadComments($event)"
+                             (sentRequest)="sendRequest($event)"
+  ></app-detailed-learner-card>
+}
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}

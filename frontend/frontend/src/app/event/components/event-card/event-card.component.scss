@@ -1,0 +1,28 @@
+.event-card-content {
+  display: flex;
+  border: 1px solid theme('colors.orange-strong');
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 20rem;
+  cursor: pointer;
+  margin-right: 1rem;
+
+  .event-picture {
+    height: 4rem !important;
+    width: 4rem !important;
+    margin-right: 1rem;
+
+    .event-picture-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #E3C7E3, #F3E9B5);
+      font-size: 24px;
+      height: 100%;
+    }
+  }
+}

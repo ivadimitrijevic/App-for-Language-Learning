@@ -1,0 +1,46 @@
+<div class="edit-language-pop-up">
+  <div class="edit-language-content">
+    <div class="flex justify-between mb-10 pt-[1rem] px-[1rem]">
+      <div></div>
+      <div class="text-xl text-indigo font-bold">{{ language.name }}</div>
+      <div class="cursor-pointer hover:color-gray">
+            <span class="material-symbols-outlined hover:text-gray" (click)="closingAction.emit('close')">
+              close
+            </span>
+      </div>
+    </div>
+    <div class="flex flex-col px-[4rem] pb-[4rem]">
+      <div class="search-placeholder">
+        <div class="mb-2 mt-4 text-lg text-indigo">How well do you already know this language?</div>
+        <input class="custom-input w-80" type="text" (focus)="showLevel = true" [(ngModel)]="languageLevel.name"/>
+        @if (showLevel && levels$ | async; as levels) {
+          <ul class="dropdown">
+            @for (shownLevel of levels; track shownLevel) {
+              <li (click)="languageLevel = shownLevel; showLevel = false">{{ shownLevel.name }}</li>
+            }
+          </ul>
+        }
+      </div>
+      <div class="mb-2 text-lg text-indigo">What are your preferable methods of learning?</div>
+      @if (types$ | async; as types) {
+        @for (type of types; track type) {
+          <label class="flex items-center mb-2 cursor-pointer">
+            <input [checked]="isTypeSelected(type.id)" class="peer hidden" type="checkbox" id="customCheckbox" (change)="addType(type)">
+            <span
+              class="w-5 h-5 cursor-pointer mr-1 rounded border border-solid border-indigo bg-gray-light peer-checked:bg-orange-strong peer-checked:border-orange-strong"
+            ></span>
+            <span class="text-lg">{{ type.name }}</span>
+          </label>
+        }
+      }
+      <div class="flex justify-center">
+        <button class="mt-10 mr-4 primary-button"
+        (click)="edit()">Save edit</button>
+        <button class="mt-10 primary-button"
+        (click)="delete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop"></div>

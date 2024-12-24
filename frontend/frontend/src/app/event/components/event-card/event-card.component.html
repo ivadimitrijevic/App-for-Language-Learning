@@ -1,0 +1,25 @@
+<div class="event-card-content">
+  <div class="event-picture">
+    @if (event.picture) {
+      <img src="{{event.picture}}" alt="event-picture">
+    } @else {
+      <div class="event-picture-placeholder">
+        <span class="material-symbols-outlined">
+          festival
+        </span>
+      </div>
+    }
+  </div>
+  <div class="flex flex-col">
+    <div class="text-lg text-indigo font-semibold mb-2">{{ event.name }}</div>
+    <div class="font-semibold mb-1">{{ event.language }}</div>
+    <div class="mb-1">{{ event.date | date: 'dd.MM.yyyy' }}, {{ event.time }}</div>
+    <div class="mb-1">{{ event.city }}, {{ event.country }}</div>
+  </div>
+  <div class="flex flex-col ml-auto">
+    <span class="material-symbols-outlined view-icon-button">
+      open_in_new
+    </span>
+    <div class="text-xs text-gray">View</div>
+  </div>
+</div>

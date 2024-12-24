@@ -1,0 +1,25 @@
+.user-events-component-content {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 8px 3px 22px theme('colors.gray-medium');
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  align-items: center;
+  max-height: 25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: theme('colors.white');
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 0.6625rem;
+  border-radius: 4px;
+  background-color: theme('colors.white');
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: theme('colors.blue');
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}

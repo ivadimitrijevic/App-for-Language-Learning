@@ -1,0 +1,18 @@
+<div class="user-events-component-content">
+  <div class="text-xl text-indigo font-bold mt-8">My Events</div>
+  @if (events && events.length) {
+    <div class="flex py-4 mb-4 overflow-x-auto w-full">
+      @for (event of events; track $index) {
+        <app-event-card [event]="event"
+                        (click)="openedDetails.emit({event})"
+        ></app-event-card>
+      }
+    </div>
+  }
+  @else {
+    <div class="flex flex-col text-center mt-14 mb-14">
+      <div class="text-lg mb-4">You have no Events!</div>
+      <div class="text-lg text-gray">Go to Events page and find some fun!</div>
+    </div>
+  }
+</div>

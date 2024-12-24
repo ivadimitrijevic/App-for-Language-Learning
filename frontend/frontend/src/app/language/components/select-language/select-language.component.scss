@@ -1,0 +1,33 @@
+.search-placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .dropdown {
+    position: absolute;
+    top: 70%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .dropdown li {
+    padding: 8px 7px;
+    cursor: pointer;
+  }
+
+  .dropdown li:hover {
+    background-color: #eee;
+  }
+
+}

@@ -1,0 +1,48 @@
+@if (user$ | async; as user) {
+  <div class="add-new-language-pop-up">
+    <div class="add-new-language-content">
+      <div class="flex flex-row justify-between pt-[1rem] px-[1rem]">
+        <div></div>
+        <div class="text-xl text-indigo font-bold mb-10">Add Language</div>
+        <div class="cursor-pointer hover:color-gray">
+          <span class="material-symbols-outlined hover:text-gray" (click)="closingAction.emit(false)">
+            close
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col px-[4rem] pb-[4rem]">
+        <div class="mb-2 text-lg text-indigo">Select language:</div>
+        <app-select-language (languageSelected)="name = $event"
+        ></app-select-language>
+        <div class="search-placeholder">
+          <div class="mb-2 mt-4 text-lg text-indigo">How well do you already know this language?</div>
+          <input class="custom-input w-80" type="text" (focus)="showLevel = true" [(ngModel)]="levelName"/>
+          @if (showLevel && levels$ | async; as levels) {
+            <ul class="dropdown">
+              @for (level of levels; track level) {
+                <li (click)="levelName = level.name; levelId = level.id; showLevel = false">{{ level.name }}</li>
+              }
+            </ul>
+          }
+        </div>
+        <div class="mb-2 text-lg text-indigo">What are your preferable methods of learning?</div>
+        @if (types$ | async; as types) {
+          @for (type of types; track type) {
+            <label class="flex items-center mb-2 cursor-pointer">
+            <input class="peer hidden" type="checkbox" id="customCheckbox" (change)="addType(type.id)">
+            <span
+              class="w-5 h-5 cursor-pointer mr-1 rounded border border-solid border-indigo bg-gray-light peer-checked:bg-orange-strong peer-checked:border-orange-strong"
+            ></span>
+            <span class="text-lg">{{ type.name }}</span>
+            </label>
+          }
+        }
+        <button class="mt-10 primary-button self-center"
+                (click)="addLanguage(user.id)"
+                [disabled]="!name || !levelId || !(selectedTypes.length > 0)"
+        >Add</button>
+      </div>
+    </div>
+  </div>
+}
+<div class="backdrop"></div>

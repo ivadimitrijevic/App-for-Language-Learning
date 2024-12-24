@@ -1,0 +1,120 @@
+@if (currentUser; as user) {
+  <div class="flex">
+    <div class="flex flex-col w-[70%]">
+      <app-header [currentUser]="user"
+                  title="Your Profile"
+      >
+        <span class="material-symbols-outlined header-icon">
+              account_circle
+            </span>
+      </app-header>
+      <div class="user-information">
+        <div>
+          <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+        </div>
+        <div class="flex flex-col">
+          @if (!editMode) {
+            <div class="mb-[1rem]"><span class="font-semibold">Name:</span> {{ user.name }}</div>
+            <div class="mb-[1rem]"><span class="font-semibold">Surname:</span> {{ user.surname }}</div>
+            @if (user.age) {
+              <div class="mb-[1rem]"><span class="font-semibold">Age:</span> {{ user.age }}</div>
+            }
+            <div class="mb-[1rem]"><span class="font-semibold">Gender:</span> {{ user.gender.name }}</div>
+            @if (user.phoneNumber) {
+              <div class="mb-[1rem]"><span class="font-semibold">Phone Number:</span> {{ user.phoneNumber }}</div>
+            }
+            @if (user.description){
+              <div class="mb-[1rem]"><span class="font-semibold">Description:</span> {{ user.description }}</div>
+            }
+            @if (user.picture) {
+              <div class="mb-[1rem]"><span class="font-semibold">Picture:</span> {{ user.picture }}</div>
+            }
+            <div class="mb-[1rem]"><span class="font-semibold">City:</span> {{ user.city }}</div>
+            <div class="mb-[1rem]"><span class="font-semibold">Country:</span> {{ user.country }}</div>
+            <div class="mb-[1rem]"><span class="font-semibold">Email:</span> {{ user.email }}</div>
+          } @else {
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Name:</div>
+              <input class="custom-input ml-4" type="text"[(ngModel)]="name">
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Surname:</div>
+              <input class="custom-input ml-4" type="text" [(ngModel)]="surname">
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Age:</div>
+              <input class="custom-input ml-4" type="text" [(ngModel)]="age">
+            </div>
+            <div class="search-placeholder">
+              <div class="font-semibold">Gender:</div>
+              <div class="relative ml-4">
+                <input class="custom-input" type="text" (focus)="showGender = true" [(ngModel)]="genderName"/>
+                @if (showGender) {
+                  <ul class="dropdown">
+                    <li (click)="gender = GenderEnum.MALE; genderName = 'male'; showGender = false">male</li>
+                    <li (click)="gender = GenderEnum.FEMALE; genderName = 'female'; showGender = false">female</li>
+                  </ul>
+                }
+              </div>
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Phone number:</div>
+              <input class="custom-input ml-4" type="text" [(ngModel)]="phoneNumber">
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Description:</div>
+              <input class="custom-input ml-4" type="text" [(ngModel)]="description">
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Picture:</div>
+              <input class="custom-input ml-4" type="text" [(ngModel)]="picture">
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold mr-[1rem]">City:</div>
+              <app-select-city [city]="city"
+                               (selectedCity)="city = $event"
+                               (selectedCountry)="country = $event"
+              ></app-select-city>
+            </div>
+            <div class="flex mb-[1rem] items-center">
+              <div class="font-semibold">Country:</div>
+              <input [disabled]="true" class="custom-input ml-4" type="text" [(ngModel)]="country">
+            </div>
+          }
+        </div>
+        @if (!editMode) {
+          <div class="ml-auto">
+            <span class="material-symbols-outlined icon-button" (click)="editMode = true">
+              edit
+            </span>
+          </div>
+        }
+        @else {
+          <button (click)="updateUser()" class="ml-auto h-8 primary-button">Save</button>
+        }
+      </div>
+    </div>
+    <div class="flex flex-col ml-auto">
+      @if (knownLanguages$ | async; as knownLanguages) {
+        <app-languages-component [languages]="knownLanguages"
+                                 [enableAdding]="true"
+                                 [known]=true
+                                 [title]="'Languages you know'"
+        ></app-languages-component>
+      }
+      @if (learningLanguages$ | async; as learningLanguages) {
+        <app-languages-component [languages]="learningLanguages"
+                                 [enableAdding]="true"
+                                 [known]=false
+                                 [title]="'Languages you are learning'"
+        ></app-languages-component>
+      }
+    </div>
+  </div>
+}
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}

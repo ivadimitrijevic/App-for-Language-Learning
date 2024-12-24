@@ -1,0 +1,22 @@
+<div class="login-page">
+  <div class="flex flex-col h-[20rem] w-[20rem] shadow-lg rounded-md bg-white">
+    <div class="h-10 pt-2 text-center bg-indigo text-white font-bold text-2xl rounded">Language Learner</div>
+    <div class="mt-8 mb-8 flex justify-center">
+      <input class="w-5/6 custom-input" type="text" placeholder="Email" [(ngModel)]="email">
+    </div>
+    <div class="mb-8 flex justify-center">
+      <input class="w-5/6 custom-input" type="password" placeholder="Password" [(ngModel)]="password">
+    </div>
+    <button [disabled]="!email || !password"
+            (click)="login()"
+            class="mt-10 rounded bg-orange-strong w-11/12 h-10 text-lg px-1 self-center border-none font-semibold text-white hover:bg-orange disabled:bg-gray-medium"
+    >Login</button>
+  </div>
+  <div class="mt-4">Don't have an account? <span class="underline text-indigo hover:text-blue cursor-pointer" (click)="navigate()">Register now!</span></div>
+</div>
+
+@if (displayError) {
+  <app-error-pop-up [message]="message"
+                    (closingAction)="displayError = false"
+  ></app-error-pop-up>
+}

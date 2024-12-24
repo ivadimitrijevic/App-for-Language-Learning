@@ -1,0 +1,21 @@
+<div class="chat-page-content">
+  @if (friends$ | async; as friends) {
+    <app-friends-chat [friends]="friends"
+                      [currentUserId]="currentUserId"
+                      (changedFriend)="changeFriend($event)"
+    ></app-friends-chat>
+  }
+  @if (currentUserId && selectedFriend && messages$ | async; as messages) {
+    <app-chat class="w-full h-full"
+              [currentUser]="currentUserId"
+              [friend]="selectedFriend"
+              [messages]="messages"
+              [paginationInformation]="paginationInfo$ | async"
+              (loadedMore)="loadMessages($event)"
+    ></app-chat>
+  } @else {
+    <div class="w-full h-full flex justify-center items-center bg-white">
+      <div class="text-2xl text-gray px-6 text-wrap">Select a friend and get learning going!</div>
+    </div>
+  }
+</div>

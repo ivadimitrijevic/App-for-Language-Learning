@@ -1,0 +1,57 @@
+#sidebar {
+  width: 14.7845rem;
+  height: 100%;
+  padding-top: 1.5rem;
+  border-radius: 10px;
+  background-color: theme('colors.white');
+  color: theme('colors.gray');
+  box-shadow: 8px 3px 22px theme('colors.gray-medium');
+
+  //&.collapsed {
+  //  width: 4rem;
+  //
+  //  @screen sm {
+  //    width: 6.875rem;
+  //  }
+  //}
+
+  //.og-logo {
+  //  width: 2.4375rem;
+  //  height: 1.5625rem;
+  //}
+  //
+  //.menu-arrow {
+  //  display: flex;
+  //  align-items: center;
+  //  height: 3rem;
+  //  margin-bottom: 0.25rem;
+  //  margin-right: 0.75rem;
+  //  cursor: pointer;
+  //  padding: 0.25rem 1rem;
+  //
+  //  &:hover {
+  //    background-color: theme('colors.blue');
+  //    border-radius: 0.75rem;
+  //  }
+  //}
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+
+    &:hover {
+      color: theme('colors.gray-medium');
+      border-radius: 1rem;
+    }
+
+    .logo {
+      width: 1.6875rem;
+      height: 1.5rem;
+      padding-left: 0.25rem;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<div class="chat-container">
+  <div class="messages" #messagesDiv autoScroll="messages">
+    @if (paginationInformation.currentPage < paginationInformation.lastPage) {
+      <div class="arrow-icon">
+        <span class="material-symbols-outlined" (click)="loadedMore.emit(paginationInformation.currentPage + 1)">
+          arrow_upward
+        </span>
+      </div>
+    }
+    <div
+      *ngFor="let message of myMessages"
+      [ngClass]="{ 'sent': message.fromUser === currentUser,
+                  'received': message.toUser !== friend }"
+    >
+      <div class="pr-8">{{ message.content }}</div>
+      <div class="ml-auto text-gray-medium text-end pr-2 pb-1 text-xs">{{ message.createdAt | date:'HH:mm' }}</div>
+    </div>
+    @if (paginationInformation.currentPage > 1) {
+      <div class="arrow-icon">
+        <span class="material-symbols-outlined" (click)="loadedMore.emit(paginationInformation.currentPage - 1)">
+          arrow_downward
+        </span>
+      </div>
+    }
+  </div>
+  <div class="input-container mt-auto">
+    <input class="message-input"
+      type="text"
+      [(ngModel)]="newMessage"
+      placeholder="Type your message..."
+    />
+    <button (click)="sendMessage()"
+            class="ml-auto primary-button">
+      Send
+    </button>
+  </div>
+</div>
+

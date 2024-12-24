@@ -1,0 +1,94 @@
+@if (user) {
+  <div class="detailed-card">
+    <div class="detailed-card-content">
+      <div class="w-fit ml-auto">
+        <span class="material-symbols-outlined hover:text-gray cursor-pointer mr-2 mt-2" (click)="closingAction.emit()">
+          close
+        </span>
+      </div>
+      <div class="flex px-[3rem] py-[2rem]">
+        <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+        <div class="flex flex-col">
+          <div class="text-xl text-indigo font-bold mb-3">{{ user.name }} {{ user.surname }}</div>
+          @if (user.gender) {
+            <div class="mb-1 text-gray text-lg">{{ user.gender.name }}, {{ user.age }}</div>
+          }
+          <div class="mb-2 text-gray text-lg">{{ user.city }}, {{ user.country }}</div>
+          <div class="mb-2 text-lg">{{ user.description }}</div>
+          <div class="flex mb-2 text-lg">
+            <div class="font-semibold text-indigo mr-1 text-lg">Speaks:</div>
+            @for (language of knownLanguages; track $index) {
+              @if ($index !== 0) {
+                <div class="mr-1">,</div>
+              }
+              <div class="text-lg">{{ language.name }}</div>
+            }
+          </div>
+          <div class="mb-1 text-lg text-indigo font-semibold">Learning:</div>
+          @for (language of learningLanguages; track $index) {
+            <div class="flex flex-col mb-1 text-lg align-middle text-center">
+              <div class="flex">
+                <div class="language-chip">{{ language.name }}</div>
+                <div class="text-lg">- {{ language.level.name }}<br></div>
+              </div>
+              <div class="flex mb-2">
+                <div class="mr-1">I am open for</div>
+                @if (language.types.length) {
+                  @for (type of language.types; track $index) {
+                    @if ($index !== 0) {
+                      <div class="mr-1">,</div>
+                    }
+                    <div>{{ type.name }}</div>
+                  }
+                }
+              </div>
+            </div>
+          }
+          <div class="flex items-center mb-4">
+            <span class="material-symbols-outlined star-icon">
+              star
+            </span>
+            @if (user.averageRating) {
+              <div>{{ user.averageRating }}</div>
+            } @else {
+              <div>0.0</div>
+            }
+            @if (user.averageRating) {
+              @if (showRatingButton) {
+                <button class="ml-4 secondary-button" (click)="showRatings()">See comments</button>
+              } @else {
+                <button class="ml-4 tertiary-button" (click)="hideRatings()">Hide comments</button>
+              }
+            }
+          </div>
+          @if (ratings && ratings.length) {
+            <div class="rating-content">
+              @for (rating of ratings; track $index) {
+                <div class="rating-card">
+                  <div class="flex items-center mb-2">
+                    <span class="material-symbols-outlined small-star-icon">
+                      star
+                    </span>
+                    <div>{{ rating.rating }}</div>
+                  </div>
+                  <div class="mb-2"><span class="font-bold">From:</span> {{ rating.fromUser.name }} {{ rating.fromUser.surname }}</div>
+                  <div>{{ rating.text }}</div>
+                </div>
+              }
+            </div>
+          }
+          @if (addFriendButton) {
+           <button class="mt-5 w-[10rem] primary-button" (click)="sentRequest.emit(user.id)">
+             Send request
+             <span class="material-symbols-outlined ml-2">
+              person_add
+            </span>
+           </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop"></div>
+}

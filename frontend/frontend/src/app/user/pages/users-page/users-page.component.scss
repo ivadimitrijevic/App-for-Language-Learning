@@ -1,0 +1,25 @@
+.users-page-content {
+  width: 100%;
+  height: 100vh;
+  padding-top: 1.5rem;
+  border-radius: 10px;
+  background-color: theme('colors.white');
+  box-shadow: 8px 3px 22px theme('colors.gray-medium');
+
+  .arrow-button {
+    border-radius: 50%;
+    background-color: theme('colors.white');
+    border: 1px solid theme('colors.gray-medium');
+    color: theme('colors.gray');
+    margin-right: 0.25rem;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:disabled {
+      background-color: theme('colors.gray-light');
+    }
+  }
+}

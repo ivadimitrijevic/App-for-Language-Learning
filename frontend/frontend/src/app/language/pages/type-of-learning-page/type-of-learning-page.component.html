@@ -1,0 +1,78 @@
+<app-header title="Types Of Learning"
+>
+  <span class="material-symbols-outlined header-icon">
+    school
+  </span>
+</app-header>
+<div class="type-of-learning-content">
+  @if (creatingMode) {
+    <div class="creating-type-card">
+      <div class="text-lg font-bold text-indigo mb-6">Create New Type Of Learning</div>
+      <div class="flex">
+        <input #newTypeName placeholder="Name" class="w-80 custom-input">
+        <div class="flex ml-auto">
+              <span class="material-symbols-outlined icon-button mr-2"
+                    (click)="createType()">
+                save
+              </span>
+          <span class="material-symbols-outlined icon-button"
+                (click)="creatingMode = false"
+          >
+            close
+          </span>
+        </div>
+      </div>
+    </div>
+  }
+  @else {
+    <button (click)="creatingMode = true"
+            class="mb-5 ml-auto primary-button"
+    >Create New Learning Type</button>
+  }
+  @if (typesOfLearning) {
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      @for (learningType of typesOfLearning; track $index) {
+        <div class="type-card" cdkDrag>
+          @if (!editModes[$index]) {
+            <div cdkDragHandle>
+              <span class="material-symbols-outlined cursor-pointer"> swap_vert </span>
+            </div>
+            <div class="ml-5 text-indigo">{{ learningType.name }}</div>
+            <span class="material-symbols-outlined ml-auto icon-button"
+                  (click)="changeEditMode($index)"
+            >
+                edit
+              </span>
+          }
+          @else {
+            <input #typeName value="{{ learningType.name }}" class="w-80 h-6">
+            <div class="flex ml-auto">
+                <span class="material-symbols-outlined icon-button mr-2"
+                      (click)="updateType(learningType.id)">
+                  save
+                </span>
+              <span class="material-symbols-outlined icon-button"
+                    (click)="closeEdit()"
+              >
+                  close
+                </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}
+
+@if (displayError) {
+  <app-error-pop-up [message]="message"
+                    (closingAction)="displayError = false"
+  ></app-error-pop-up>
+}
+

@@ -1,0 +1,51 @@
+<div class="notifications-content">
+  <span class="material-symbols-outlined text-gray cursor-pointer hover:text-gray-medium"
+  (click)="openNotifications()">
+    notifications
+  </span>
+  @if (displayNotifications && notifications) {
+    <div class="notifications">
+      <div class="text-lg text-center font-semibold mb-6 text-indigo">Notifications</div>
+      <div class="flex flex-col">
+        @for (notification of notifications; track $index) {
+          <div class="notification-card">
+            <div class="flex flex-col">
+              <div class="text-indigo">{{ notification.text }}</div>
+              @if (!notification.seen && notification.type === 'request') {
+                <div class="flex justify-center mt-2">
+                  <button class="secondary-button"
+                    (click)="answeredRequest.emit({
+                  id: notification.id,
+                  fromUser: notification.fromUser,
+                  toUser: notification.toUser,
+                  active: true,
+                  message: 'You have successfully accepted friend request!'
+                  })">
+                    Accept
+                  </button>
+                  <button class="ml-4 tertiary-button"
+                    (click)="answeredRequest.emit({
+                  id: notification.id,
+                  fromUser: notification.fromUser,
+                  toUser: notification.toUser,
+                  active: false,
+                  message: 'You have successfully declined friend request!'
+                  })">
+                    Decline
+                  </button>
+                </div>
+              }
+            </div>
+            @if (!notification.seen) {
+              <div class="seen-chip" (click)="seenNotification.emit(notification.id)"></div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+@if (displayNotifications) {
+  <div class="backdrop"></div>
+}

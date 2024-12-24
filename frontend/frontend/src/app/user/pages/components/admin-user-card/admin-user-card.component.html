@@ -1,0 +1,31 @@
+<div class="admin-user-card-content">
+  <div class="flex">
+    <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+    <div class="flex flex-col mr-10 w-48">
+      <div class="mb-2 text-lg font-bold text-indigo">{{ user.name }} {{ user.surname }}</div>
+      <div class="text-gray">{{ user.email }}</div>
+    </div>
+    <div class="flex items-center">
+      <span class="material-symbols-outlined star-icon">
+        star
+      </span>
+      @if (user.averageRating) {
+        <div>{{ user.averageRating }}</div>
+      } @else {
+        <div>0.0</div>
+      }
+    </div>
+  </div>
+  @if (user.active) {
+    <button (click)="removedUser.emit()"
+      class="self-center secondary-button">
+      Remove User
+    </button>
+  }
+  @else {
+    <button (click)="returnedUser.emit()"
+      class="self-center tertiary-button">
+      Bring Back User
+    </button>
+  }
+</div>

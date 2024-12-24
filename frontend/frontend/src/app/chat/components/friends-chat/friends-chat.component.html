@@ -1,0 +1,12 @@
+<div class="friends-chat-content">
+  <div class="text-xl text-indigo font-bold my-4 text-center">Your Friends</div>
+  <div class="friends-chat-container">
+    @for (friend of friendsList; track $index) {
+      <div (click)="selectFriend(friend)"
+           class="friend-chat-card"
+           [ngClass]="{'selected-friend': selectedFriendId === friend.id}">
+        {{ friend.name }} {{ friend.surname }}
+      </div>
+    }
+  </div>
+</div>

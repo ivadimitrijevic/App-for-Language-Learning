@@ -1,0 +1,47 @@
+@if (savedUser; as currentUser) {
+  <app-header title="Home"
+              [currentUser]="currentUser"
+              [greetingMessage]="true"
+  >
+    <span class="material-symbols-outlined header-icon">
+      home
+    </span>
+  </app-header>
+  <app-user-events [events]="userEvents$ | async"
+                   (openedDetails)="openEvent($event, currentUser)"
+  ></app-user-events>
+  <app-friends [friends]="friends$ | async"
+               [currentUser]="currentUser"
+               (openedReview)="openReview($event)"
+  ></app-friends>
+
+  @if (displayReview && selectedUser) {
+    <app-leave-rating [user]="selectedUser"
+                      (closingAction)="displayReview = false;selectedUser = null"
+                      (leftRating)="leaveRating($event, currentUser.id)"
+    ></app-leave-rating>
+  }
+
+  @if (displayEventDetails && selectedEvent) {
+    <app-detailed-event-card [event]="selectedEvent"
+                             [currentUser]="currentUser"
+                             [participants]="participants$ | async"
+                             [usersEvents]="userEvents$ | async"
+                             (closingAction)="displayEventDetails = false"
+                             (editEvent)="displayEdit = true; displayEventDetails = false"
+                             (leaveEvent)="leaveEvent($event)"
+    ></app-detailed-event-card>
+  }
+
+  @if (displayEdit) {
+    <app-edit-event [event]="selectedEvent"
+                    (closingAction)="displayEdit = false"
+    ></app-edit-event>
+  }
+}
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}

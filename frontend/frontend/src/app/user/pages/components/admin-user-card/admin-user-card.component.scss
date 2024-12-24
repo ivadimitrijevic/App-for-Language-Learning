@@ -1,0 +1,27 @@
+.admin-user-card-content {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid theme('colors.teal');
+  padding: 1rem 2rem;
+  border-radius: 1.25rem;
+  margin-bottom: 2rem;
+
+  .picture-placeholder {
+    font-size: 35px;
+    height: 4rem;
+    width: 4rem;
+    margin-right: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #E3C7E3, #F3E9B5);
+  }
+
+  .star-icon {
+    color: theme('colors.yellow');
+    font-size: 30px;
+  }
+}

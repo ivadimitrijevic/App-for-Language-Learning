@@ -1,0 +1,24 @@
+<div class="header-content">
+  <div class="flex">
+    <ng-content></ng-content>
+    <div class="text-4xl font-bold mb-2 ml-2 text-indigo">{{ title }}</div>
+    <div class="ml-auto">
+      @if (currentUser) {
+        <app-notification [notifications]="notifications$ | async"
+                          (openedNotifications)="openNotifications()"
+                          (seenNotification)="updateNotification($event)"
+                          (answeredRequest)="updateFriendship($event)"
+        ></app-notification>
+      }
+    </div>
+  </div>
+  @if (greetingMessage) {
+    <div class="greeting-message">Welcome, {{ currentUser.name }}!</div>
+  }
+</div>
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}

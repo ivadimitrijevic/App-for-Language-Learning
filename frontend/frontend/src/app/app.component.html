@@ -1,0 +1,14 @@
+<head>
+  <title>Learning Languages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<div class="app-container">
+  @if (showMenu) {
+    <aside class="sidebar">
+      <app-side-bar></app-side-bar>
+    </aside>
+  }
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

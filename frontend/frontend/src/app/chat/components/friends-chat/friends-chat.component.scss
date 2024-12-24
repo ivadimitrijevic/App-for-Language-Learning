@@ -1,0 +1,29 @@
+.friends-chat-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 20rem;
+  background-color: theme('colors.gray-light');
+
+  .friends-chat-container {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid theme('colors.gray-medium');
+
+    .friend-chat-card {
+      padding: 1rem;
+      font-size: 1.125rem;
+      border-bottom: 1px solid theme('colors.gray-medium');
+      cursor: pointer;
+    }
+
+    .selected-friend {
+      padding: 1rem;
+      font-size: 1.125rem;
+      font-weight: bold;
+      border-bottom: 1px solid theme('colors.gray-medium');
+      background-color: theme('colors.indigo');
+      color: theme('colors.white');
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.learner-card-content {
+  display: flex;
+  border: 1px solid theme('colors.blue');
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 20rem;
+
+  .picture-placeholder {
+    font-size: 24px;
+    height: 4rem !important;
+    width: 4rem !important;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #E3C7E3, #F3E9B5);
+  }
+
+  .language-placeholder {
+    color: white;
+    background-color: theme('colors.blue');
+    border-radius: 10px;
+    margin-right: 1px;
+    padding: 0.25rem;
+    margin-bottom: 1px;
+  }
+}

@@ -1,0 +1,24 @@
+.friend-card-content {
+  display: flex;
+  border: 1px solid theme('colors.teal');
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 20rem;
+  margin-left: 4px;
+  margin-right: 4px;
+
+  .picture-placeholder {
+    font-size: 24px;
+    height: 4rem !important;
+    width: 4rem !important;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #E3C7E3, #F3E9B5);
+  }
+}

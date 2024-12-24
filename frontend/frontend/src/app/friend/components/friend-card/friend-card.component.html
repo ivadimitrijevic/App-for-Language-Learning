@@ -1,0 +1,15 @@
+<div class="friend-card-content">
+  <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+  <div class="flex flex-col w-full">
+    <div class="flex w-full">
+      <div class="text-lg font-semibold mb-2 cursor-pointer">{{ user.name }} {{ user.surname }}</div>
+      @if (!reviewLeft) {
+        <span class="material-symbols-outlined text-sm ml-auto text-lilac-strong hover:text-lilac cursor-pointer"
+              (click)="openedReview.emit(user)">
+          rate_review
+        </span>
+      }
+    </div>
+    <div class="mb-2">{{ user.city }}, {{ user.country }}</div>
+  </div>
+</div>

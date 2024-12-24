@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+//@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.custom-button {
+  @apply bg-blue font-bold py-2 px-4 rounded;
+  -webkit-appearance: none;
+  background-color: blue;
+  background-image: none;
+}
+
+.custom-input {
+  height: 2rem;
+  border: 1px solid theme('colors.gray');
+  border-radius: 0.75rem;
+  outline: none;
+  padding-left: 0.5rem;
+}
+
+.icon-button {
+  color: theme('colors.lilac-strong');
+  cursor: pointer;
+
+  &:hover {
+    color: theme('colors.lilac');
+  }
+}
+
+.view-icon-button {
+  color: theme('colors.gray');
+  cursor: pointer;
+
+  &:hover {
+    color: theme('colors.gray-medium');
+  }
+}
+
+.primary-button {
+  width: fit-content;
+  font-size: 1.125rem;
+  border: 2px solid theme('colors.indigo');
+  color: theme('colors.indigo');
+  font-weight: bold;
+  background-color: theme('colors.white');
+  border-radius: 1.5rem;
+  //border-radius: 1rem;
+  padding: 8px 20px;
+  //padding: 4px 14px;
+  display: flex;
+  align-items: center;
+  box-shadow: 4px 4px 0 0 theme('colors.teal');
+
+  &:disabled {
+    cursor: none;
+    background-color: theme('colors.gray-light');
+  }
+
+  &:hover {
+    background-color: theme('colors.gray-light');
+  }
+}
+
+.secondary-button {
+  border: 1px solid theme('colors.indigo');
+  background-color: theme('colors.teal-light');
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  color: theme('colors.indigo');
+  justify-content: center;
+}
+
+.tertiary-button {
+  border: 1px solid theme('colors.teal');
+  background-color: theme('colors.gray-light');
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  color: theme('colors.indigo');
+  justify-content: center;
+}
+
+.header-icon {
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 2.25rem;
+  color: theme('colors.indigo');
+}

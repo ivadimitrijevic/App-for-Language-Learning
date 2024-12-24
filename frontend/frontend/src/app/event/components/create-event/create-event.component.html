@@ -1,0 +1,50 @@
+<div class="create-event-pop-up">
+  <div class="create-event-content">
+    <div class="flex flex-row justify-between pt-[1rem] px-[1rem]">
+      <div></div>
+      <div class="text-xl text-indigo font-bold mb-10">Create Event</div>
+      <div class="cursor-pointer hover:color-gray">
+          <span class="material-symbols-outlined hover:text-gray" (click)="closingAction.emit(false)">
+            close
+          </span>
+      </div>
+    </div>
+    <div class="event-info">
+      <div></div>
+      <div class="flex flex-col">
+        <div class="mb-2 text-lg text-indigo">Select language:</div>
+        <app-select-language (languageSelected)="language = $event"
+        ></app-select-language>
+        <div class="flex items-center mb-2 mt-4">
+          <div class="mr-4 text-lg text-indigo">Select City:</div>
+          <app-select-city (selectedCityAndCountry)="selectCity($event)"
+          ></app-select-city>
+        </div>
+        <div class="mt-4 text-lg text-indigo">Address of Event:</div>
+        <input type="text" [(ngModel)]="address" class="custom-input mt-2 mb-4">
+        <div class="text-lg text-indigo">Date:</div>
+        <input type="date" [(ngModel)]="date" class="custom-input mt-2 mb-4">
+        <div class="text-lg text-indigo">Time:</div>
+        <input type="time" [(ngModel)]="time" class="custom-input mt-2 mb-4">
+      </div>
+      <div class="flex flex-col">
+        <div class="text-lg text-indigo">Event Name:</div>
+        <input type="text" [(ngModel)]="name" class="custom-input mt-2 mb-4">
+        <div class="text-lg text-indigo">Description:</div>
+        <textarea [(ngModel)]="description" class="custom-text-area"></textarea>
+        <div class="text-lg text-indigo">Picture:</div>
+        <input type="text" [(ngModel)]="description" class="custom-input mt-2 mb-4">
+        <div class="text-lg text-indigo">Maximum number of people:</div>
+        <input type="number" [(ngModel)]="maxPeople" class="custom-input mt-2 mb-4">
+      </div>
+      <div></div>
+    </div>
+    <div class="self-center mb-8">
+      <button class="primary-button"
+      [disabled]="!name || !description || !date || !time || !language || !city || !address || !maxPeople"
+      (click)="createEvent()">Create</button>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop"></div>

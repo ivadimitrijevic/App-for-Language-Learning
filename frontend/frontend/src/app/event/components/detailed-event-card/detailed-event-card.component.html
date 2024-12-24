@@ -1,0 +1,65 @@
+<div class="detailed-event-card">
+  <div class="detailed-event-content">
+    <div class="w-fit ml-auto">
+        <span class="material-symbols-outlined hover:text-gray cursor-pointer mt-2 mr-2" (click)="closingAction.emit()">
+          close
+        </span>
+    </div>
+    <div class="flex px-[3rem] py-[2rem]">
+      <div class="event-picture">
+        @if (event.picture) {
+          <img src="{{event.picture}}" alt="event-picture">
+        } @else {
+          <div class="event-picture-placeholder">
+        <span class="material-symbols-outlined text-5xl">
+          festival
+        </span>
+          </div>
+        }
+      </div>
+      <div class="flex flex-col w-2/3">
+        <div class="flex">
+          <div class="text-xl font-semibold mb-2 text-wrap">{{ event.name }}</div>
+          @if (currentUser.id === event.eventMaker.id) {
+            <div class="ml-auto">
+            <span class="material-symbols-outlined icon-button" (click)="editEvent.emit()">
+              edit
+            </span>
+            </div>
+          }
+        </div>
+        <div class="font-semibold mb-2 text-lg">{{ event.language }}</div>
+        <div class="mb-1 text-gray">{{ event.date }}, {{ event.time }}</div>
+        <div class="mb-1 text-gray">{{ event.city }}, {{ event.country }}</div>
+        <div class="mb-2 text-gray">{{ event.address }}</div>
+        <div class="mb-2 text-lg"><span class="text-indigo font-semibold">Made by:</span> {{ event.eventMaker.name }} {{ event.eventMaker.surname }}</div>
+        <div class="mb-2 text-lg italic text-wrap">{{ event.description }}</div>
+        <div class="mb-2 text-lg"><span class="text-indigo font-semibold">Maximum number of people:</span> {{ event.maxPeople }}</div>
+        @if (participants) {
+          <div class="mb-2 text-lg"><span class="text-indigo font-semibold">Places left:</span> {{ event.maxPeople - participants.length }}</div>
+        }
+        <div class="text-lg"><span class="text-indigo font-semibold">Participants:</span></div>
+        <div class="participants">
+          @for (participant of participants; track $index) {
+            <div>{{ participant.name }} {{ participant.surname }}</div>
+          }
+        </div>
+        @if (participants && (event.maxPeople - participants.length > 0)) {
+          @if (!participant()) {
+            <button class="mt-2 w-[8rem] primary-button"
+                    (click)="joinEvent.emit(currentUser)"
+            >Join Event</button>
+          } @else {
+            <button class="mt-2 w-[8rem] primary-button"
+                    (click)="leaveEvent.emit(currentUser)"
+            >Leave Event</button>
+          }
+        } @else {
+          <div class="mt-2 text-2xl text-lilac-strong font-bold">Event is full!</div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop"></div>

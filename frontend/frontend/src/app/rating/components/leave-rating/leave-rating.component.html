@@ -1,0 +1,33 @@
+<div class="leave-rating-pop-up">
+  <div class="leave-rating-content">
+    <div class="flex flex-row justify-between pt-[1rem] px-[1rem]">
+      <div></div>
+      <div class="text-lg font-bold mb-10 text-center">Your thoughts about <br>{{ user.name }} {{ user.surname }}</div>
+      <div class="cursor-pointer hover:color-gray">
+          <span class="material-symbols-outlined hover:text-gray" (click)="closingAction.emit()">
+            close
+          </span>
+      </div>
+    </div>
+    <div class="flex flex-col pl-6 pr-6">
+      <div class="stars">
+        <i
+          *ngFor="let star of stars; let i = index"
+          class="star"
+          [class.filled]="i < rating"
+          (click)="setRating(i + 1)">
+          ★
+        </i>
+      </div>
+      <textarea [(ngModel)]="text" class="custom-text-area"></textarea>
+    </div>
+    <div class="flex justify-center mb-6 mt-6">
+      <button class="primary-button"
+              [disabled]="rating === 0"
+              (click)="leaveRating()"
+      >Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop"></div>

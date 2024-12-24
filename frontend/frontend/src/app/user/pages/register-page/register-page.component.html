@@ -1,0 +1,73 @@
+<div class="register-page">
+  <div class="flex flex-col w-[50rem] shadow-lg rounded-md bg-white">
+    <div class="h-10 pt-2 text-center bg-indigo text-2xl rounded text-white">Register</div>
+    <div class="flex justify-between bg-white">
+      <div></div>
+      <div class="flex flex-col">
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Name: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="name">
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Surname: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="surname">
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Age:</div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="age">
+        </div>
+        <div class="search-placeholder">
+          <div class="self-start pl-6">Gender: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="text" (focus)="showGender = true" [(ngModel)]="genderName"/>
+          @if (showGender) {
+            <ul class="dropdown">
+              <li (click)="gender = GenderEnum.MALE; genderName = 'male'; showGender = false">male</li>
+              <li (click)="gender = GenderEnum.FEMALE; genderName = 'female'; showGender = false">female</li>
+            </ul>
+          }
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Phone Number:</div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="phoneNumber">
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Description:</div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="description">
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Picture:</div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="picture">
+        </div>
+        <div class="search-placeholder">
+          <div class="self-start pl-6">City: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="text" (input)="onSearch($event)" (focus)="showDropdown = true" [(ngModel)]="city"/>
+            @if (showDropdown && cities$  | async; as cities) {
+              <ul class="dropdown">
+                <li *ngFor="let city of cities" (click)="selectCity(city)">
+                  {{ city.name }}, {{ city.country }}
+                </li>
+              </ul>
+            }
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Country: <span class="text-xs text-red">*</span></div>
+          <input [disabled]="true" class="custom-input w-80" type="text" [(ngModel)]="country">
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Email: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="text" [(ngModel)]="email">
+        </div>
+        <div class="register-placeholder">
+          <div class="self-start pl-6">Password: <span class="text-xs text-red">*</span></div>
+          <input class="custom-input w-80" type="password" [(ngModel)]="password">
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <button [disabled]="!name || !surname || !gender || !city || !email || !password"
+            class="mb-6 mt-10 bg-orange-strong w-11/12 h-10 text-lg px-1 self-center border-none font-semibold text-white rounded hover:bg-orange disabled:bg-gray-medium"
+            (click)="register()">Register</button>
+  </div>
+</div>

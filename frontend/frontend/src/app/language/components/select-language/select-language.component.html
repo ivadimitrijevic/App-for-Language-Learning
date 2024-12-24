@@ -1,0 +1,12 @@
+<div class="search-placeholder">
+  <input [ngModel]="languageName" class="custom-input w-80" placeholder="{{ placeholder }}" type="text" (input)="onSearch($event)" (focus)="showDropdown = true"/>
+  @if (showDropdown && languages) {
+    <ul class="dropdown">
+      @for (language of languages | keyvalue; track language) {
+        <li [value]="language.value.name" (click)="selectLanguage(language.value.name)">
+          {{ language.value.name }}
+        </li>
+      }
+    </ul>
+  }
+</div>

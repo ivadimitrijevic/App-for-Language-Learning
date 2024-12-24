@@ -1,0 +1,57 @@
+<div class="language-component">
+  <div class="flex justify-between w-full">
+    <div></div>
+    <div class="text-lg text-indigo font-bold mb-5">{{ title }}</div>
+    @if (enableAdding) {
+      <div class="adding-card" (click)="displayAdding = true">
+        <span class="material-symbols-outlined">
+          add
+        </span>
+      </div>
+    }
+  </div>
+  <div class="language-content">
+    @if (languages && languages.length) {
+      @for (language of languages; track language) {
+        <div class="language-card">
+          <div class="flex justify-between">
+            <div class="font-semibold text-indigo text-lg mb-[0.5rem]">{{ language.name }}</div>
+            <div></div>
+            <span class="material-symbols-outlined text-sm icon-button" (click)="displayEditingComponent(language)">
+              edit
+            </span>
+          </div>
+          <div class="mb-[0.5rem]">Level of knowledge: {{ language.level.name }}</div>
+          <div class="mb-[0.5rem]">Desirable types of learning:</div>
+          <div class="flex flex-wrap">
+          @for (type of language.types; track type) {
+            <div class="chip">{{ type.name }}</div>
+          }
+          </div>
+        </div>
+      }
+    }
+    @else {
+      <div>Click + above to add new language!</div>
+    }
+  </div>
+</div>
+@if (displayAdding) {
+  <app-add-new-language
+    [know]="known"
+    (closingAction)="closeAdding($event)"
+  ></app-add-new-language>
+}
+
+@if (displayEditing) {
+  <app-edit-language [language]="selectedLanguage"
+                     (closingAction)="closeEditing($event)"
+  ></app-edit-language>
+}
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}
+

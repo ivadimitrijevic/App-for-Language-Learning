@@ -1,0 +1,10 @@
+<div class="search-placeholder">
+  <input placeholder="{{placeholder}}" class="custom-input" type="text" (input)="onSearch($event)" (focus)="showDropdown = true" [(ngModel)]="city"/>
+  @if (showDropdown && cities$  | async; as cities) {
+    <ul class="dropdown">
+      <li *ngFor="let city of cities" (click)="selectCity(city)">
+        {{ city.name }}, {{ city.country }}
+      </li>
+    </ul>
+  }
+</div>

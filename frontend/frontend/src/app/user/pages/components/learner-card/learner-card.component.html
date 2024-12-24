@@ -1,0 +1,21 @@
+<div class="learner-card-content">
+  <div class="picture-placeholder">{{ learner.name | picturePlaceholder : learner.surname }}</div>
+  <div class="flex flex-col w-full">
+    <div class="flex w-full">
+      <div class="text-lg text-indigo font-semibold mb-2 cursor-pointer" (click)="openedDetails.emit(learner.id)">{{ learner.name }} {{ learner.surname }}</div>
+      <div class="flex flex-col ml-auto">
+        <span class="material-symbols-outlined view-icon-button" (click)="openedDetails.emit(learner.id)">
+          open_in_new
+        </span>
+        <div class="text-xs text-gray">View</div>
+      </div>
+    </div>
+    <div class="mb-2">{{ learner.city }}, {{ learner.country }}</div>
+    <div class="mb-1">Learning languages:</div>
+    <div class="flex flex-wrap max-w-[14rem]">
+      @for (language of learner.learningLanguages; track $index) {
+        <div class="language-placeholder">{{ language.name }}</div>
+      }
+    </div>
+  </div>
+</div>

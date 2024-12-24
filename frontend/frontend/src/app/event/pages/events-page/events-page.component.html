@@ -1,0 +1,80 @@
+@if (currentUser) {
+  <app-header [currentUser]="currentUser"
+              title=Events
+  >
+    <span class="material-symbols-outlined header-icon">
+      festival
+    </span>
+  </app-header>
+  <div class="events-page-content">
+    <div class="flex mb-7 px-5 justify-between">
+      <app-select-city [placeholder]="'Search Cities'"
+                       (selectedCityAndCountry)="city = $event.city; country = $event.country"
+      ></app-select-city>
+      <app-select-language [placeholder]="'Search Languages'"
+                           (languageSelected)="language = $event"
+      ></app-select-language>
+      <input type="date" [(ngModel)]="date" placeholder="Date" class="custom-input">
+      <button (click)="searchEvents()" class="w-[8rem] secondary-button">Search</button>
+      <button (click)="resetEvents()" class="w-[8rem] tertiary-button">Reset</button>
+    </div>
+    <div class="mb-10 ml-6">
+      <button class="w-[8rem] primary-button" (click)="displayCreate = true">Create Event</button>
+    </div>
+    @if (events$ | async; as events) {
+      <div class="grid grid-cols-3 justify-between px-[2rem]">
+        @for (event of events;track $index) {
+          <app-event-card [event]="event"
+                          (click)="openEvent(event, currentUser)"
+          ></app-event-card>
+        }
+      </div>
+    }
+    @if (paginationData$ | async; as paginationData) {
+      <div class="flex ml-auto w-fit mr-6 items-center mb-6">
+        <div class="mr-2">Page {{ paginationData.currentPage }} of {{ paginationData.lastPage }}</div>
+        <button [disabled]="paginationData.currentPage === 1" class="arrow-button" (click)="changePage(paginationData.currentPage-1)">
+        <span class="material-symbols-outlined">
+        chevron_left
+      </span>
+        </button>
+        <button [disabled]="paginationData.currentPage === paginationData.lastPage" class="arrow-button" (click)="changePage(paginationData.currentPage+1)">
+        <span class="material-symbols-outlined">
+          chevron_right
+        </span>
+        </button>
+      </div>
+    }
+  </div>
+}
+
+@if (displayEventDetails && selectedEvent) {
+  <app-detailed-event-card [event]="selectedEvent"
+                           [currentUser]="currentUser"
+                           [participants]="participants$ | async"
+                           [usersEvents]="usersEvents$ | async"
+                           (closingAction)="displayEventDetails = false"
+                           (editEvent)="displayEdit = true; displayEventDetails = false"
+                           (leaveEvent)="leaveEvent($event)"
+                           (joinEvent)="joinEvent($event)"
+  ></app-detailed-event-card>
+}
+
+@if (displayCreate) {
+  <app-create-event (closingAction)="closeCreatePopUp($event)"
+  ></app-create-event>
+}
+
+@if (displayEdit) {
+  <app-edit-event [event]="selectedEvent"
+                  (closingAction)="closeEditPopUp($event)"
+  ></app-edit-event>
+}
+
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}
+

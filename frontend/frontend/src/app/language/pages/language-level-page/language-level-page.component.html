@@ -1,0 +1,77 @@
+<app-header title="Language Levels"
+>
+  <span class="material-symbols-outlined header-icon">
+    monitoring
+  </span>
+</app-header>
+  <div class="language-levels-content">
+    @if (creatingMode) {
+      <div class="creating-level-card">
+        <div class="text-lg font-bold text-indigo mb-6">Create New Level</div>
+        <div class="flex">
+          <input #newLevelName placeholder="Name" class="w-80 custom-input">
+          <div class="flex ml-auto">
+              <span class="material-symbols-outlined icon-button mr-2"
+                    (click)="createLevel()">
+                save
+              </span>
+            <span class="material-symbols-outlined icon-button"
+                  (click)="creatingMode = false"
+            >
+                close
+              </span>
+          </div>
+        </div>
+      </div>
+    }
+    @else {
+      <button (click)="creatingMode = true"
+              class="mb-5 primary-button ml-auto "
+      >Create New Level</button>
+    }
+    @if (languageLevels) {
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+        @for (level of languageLevels; track $index) {
+          <div class="level-card" cdkDrag>
+            @if (!editModes[$index]) {
+              <div cdkDragHandle>
+                <span class="material-symbols-outlined cursor-pointer hover:text-gray-medium"> swap_vert </span>
+              </div>
+              <div class="ml-5 text-indigo">{{ level.name }}</div>
+              <span class="material-symbols-outlined ml-auto icon-button"
+                    (click)="changeEditMode($index)"
+              >
+                edit
+              </span>
+            }
+            @else {
+              <input #levelName value="{{ level.name }}" class="w-80 custom-input">
+              <div class="flex ml-auto">
+                <span class="material-symbols-outlined icon-button mr-2"
+                (click)="updateLevel(level.id)">
+                  save
+                </span>
+                <span class="material-symbols-outlined  icon-button"
+                (click)="closeEdit()"
+                >
+                  close
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+@if (displayConfirmation) {
+  <app-confirmation-pop-up [message]="message"
+                           (closingAction)="displayConfirmation = false"
+  ></app-confirmation-pop-up>
+}
+
+@if (displayError) {
+  <app-error-pop-up [message]="message"
+                    (closingAction)="displayError = false"
+  ></app-error-pop-up>
+}
