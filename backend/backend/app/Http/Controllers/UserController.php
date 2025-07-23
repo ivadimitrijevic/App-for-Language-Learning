@@ -156,7 +156,7 @@ class UserController extends Controller
             $currentUserId = $request->query('currentUserId');
 
             $query = User::query()
-                ->select('users.id', 'users.name', 'users.surname', 'users.city', 'users.country', 'users.email')
+                ->select('users.id', 'users.name', 'users.surname', 'users.city', 'users.country', 'users.email', 'users.picture')
                 ->distinct()
                 ->join('languages', 'users.id', '=', 'languages.user_id')
                 ->where('users.active', true)
@@ -188,6 +188,7 @@ class UserController extends Controller
                     'country' => $user->country,
                     'email' => $user->email,
                     'learningLanguages' => LanguageResource::collection($user->language),
+                    'picture' => $user->picture
                 ];
             });
 

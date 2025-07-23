@@ -44,6 +44,7 @@ export const eventFeature = createFeature({
     on(EventApiActions.updateSuccess, (state, { event }) => ({
       ...state,
       events: state.events ? state.events.map((stateEvent) => stateEvent.id === event.id ? event : stateEvent) : state.events,
+      userEvents: state.userEvents ? state.userEvents.map((stateEvent) => stateEvent.id === event.id ? event : stateEvent) : state.events,
     })),
     on(EventApiActions.registerForEventSuccess, (state, { user, event }) => ({
       ...state,

@@ -68,6 +68,7 @@ export const userFeature = createFeature({
     on(UserApiActions.updateSuccess, (state, { user }) => ({
       ...state,
       currentUser: user,
+
     })),
     on(UserApiActions.loadAllSuccess, (state, { data }) => ({
       ...state,
@@ -86,6 +87,11 @@ export const userFeature = createFeature({
     on(UserApiActions.loadSuccess, (state, { user }) => ({
       ...state,
       user,
+    })),
+    on(UserApiActions.loadCurrentSuccess, (state, { currentUser }) => ({
+      ...state,
+      currentUser,
+
     })),
     on(UserActions.sort, (state, { fromHighest }) => {
       const usersArray = [...state.users];

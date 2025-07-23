@@ -116,6 +116,18 @@ export class UserEffects {
   )});
 
   /**
+   * Effect for getting current user's information
+   * dispatched when 'loadCurrent' action is dispatched
+   * @type { Observable<Action> }
+   */
+  loadCurrent$: Observable<Action> = createEffect(() => { return this.actions$.pipe(
+    ofType(UserActions.loadCurrent.type),
+    switchMap(({ id }) => this.userService.getCurrentUser(id).pipe(
+      map((data: any) => UserApiActions.loadCurrentSuccess({currentUser: data.user}))
+    ))
+  )});
+
+  /**
    * Effect for getting all users information
    * dispatched when 'loadAll' action is dispatched
    * @type { Observable<Action> }

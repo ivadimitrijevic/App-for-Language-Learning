@@ -152,6 +152,17 @@ export class UserService {
       );
     }
 
+  /**
+   * Method for getting current user
+   * @param id
+   */
+  public getCurrentUser(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/getUser/${id}`).pipe(
+      map((currentUser: User) => currentUser),
+      catchError((error: HttpErrorResponse) => throwError(() => error))
+    );
+  }
+
     /**
      * Method for updating user
      * @param { number } userId

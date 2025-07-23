@@ -6,15 +6,10 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import {
-    DetailedLearnerCardComponent
-} from '../../../user/pages/components/detailed-learner-card/detailed-learner-card.component';
 import { HeaderComponent } from '../../../header/components/header/header.component';
-import { LearnerCardComponent } from '../../../user/pages/components/learner-card/learner-card.component';
 import { SelectCityComponent } from '../../../city/component/select-city/select-city.component';
 import { SelectLanguageComponent } from '../../../language/components/select-language/select-language.component';
 import { User } from '../../../user/utils/types/user.type';
-import { selectCurrentUser } from '../../../user/store/reducers/user.reducer';
 import { Event } from '../../utils/types/event.type';
 import {
   selectEvents,
@@ -38,9 +33,7 @@ import { PaginationInformation } from '../../../pagination/utils/types/paginatio
   standalone: true,
   imports: [
     AsyncPipe,
-    DetailedLearnerCardComponent,
     HeaderComponent,
-    LearnerCardComponent,
     SelectCityComponent,
     SelectLanguageComponent,
     EventCardComponent,

@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Language } from '../../../language/utils/types/language.type';
 import { selectKnownLanguages, selectLearningLanguages } from '../../../language/store/reducers/language.reducer';
@@ -18,6 +18,8 @@ import { SelectCityComponent } from '../../../city/component/select-city/select-
 import { UserActions } from '../../store/actions/user.actions';
 import { HeaderComponent } from '../../../header/components/header/header.component';
 import { ConfirmationPopUpComponent } from '../../../messages-pop-up/confirmation-pop-up/confirmation-pop-up.component';
+import { User } from '../../utils/types/user.type';
+import { selectCurrentUser } from '../../store/reducers/user.reducer';
 
 /**
  * ProfilePage component
@@ -29,7 +31,6 @@ import { ConfirmationPopUpComponent } from '../../../messages-pop-up/confirmatio
     AsyncPipe,
     LanguagesComponentComponent,
     UserPicturePlaceholderPipe,
-    NgForOf,
     ReactiveFormsModule,
     FormsModule,
     SelectCityComponent,
@@ -40,6 +41,11 @@ import { ConfirmationPopUpComponent } from '../../../messages-pop-up/confirmatio
   styleUrl: './profile-page.component.scss'
 })
 export class ProfilePageComponent implements OnInit {
+  /**
+   * Gender enum
+   * @protected
+   */
+  protected readonly GenderEnum = GenderEnum;
   /**
    * Indicator whether gender dropdown is displayed
    * @type { boolean }
@@ -134,6 +140,11 @@ export class ProfilePageComponent implements OnInit {
    * @type { Observable<Array<Language>> }
    */
   public learningLanguages$: Observable<Array<Language>> = this.store.select(selectLearningLanguages);
+  /**
+   * Observable of current user
+   * @type { Observable<User> }
+   */
+  public currentUser$: Observable<User> = this.store.select(selectCurrentUser);
 
   /**
    * Constructor of Profile page
@@ -148,21 +159,27 @@ export class ProfilePageComponent implements OnInit {
    * OnInit method of ProfilePage component
    */
   ngOnInit(): void {
+    this.store.dispatch(UserActions.loadCurrent({ id: this.currentUser.id }))
     this.store.dispatch(LanguageActions.loadAllKnown({ userId: this.currentUser.id }));
     this.store.dispatch(LanguageActions.loadAllLearning({ userId: this.currentUser.id }));
-    this.userId = this.currentUser.id;
-    this.name = this.currentUser.name;
-    this.surname = this.currentUser.surname;
-    this.age = this.currentUser.age;
-    this.city = this.currentUser.city;
-    this.country = this.currentUser.country;
-    this.gender = this.currentUser.gender.id;
-    this.genderName = this.currentUser.gender.name;
-    this.phoneNumber = this.currentUser.phoneNumber;
-    this.description = this.currentUser.description;
-    this.picture = this.currentUser.picture;
+    this.currentUser$.subscribe((currentUser: User) => {
+      this.userId = currentUser.id;
+      this.name = currentUser.name;
+      this.surname = currentUser.surname;
+      this.age = currentUser.age;
+      this.city = currentUser.city;
+      this.country = currentUser.country;
+      this.gender = currentUser.gender.id;
+      this.genderName = currentUser.gender.name;
+      this.phoneNumber = currentUser.phoneNumber;
+      this.description = currentUser.description;
+      this.picture = currentUser.picture;
+    })
   }
 
+  /**
+   * Method for updating user information
+   */
   public updateUser() {
     this.editMode = false;
     this.store.dispatch(UserActions.update({
@@ -180,6 +197,4 @@ export class ProfilePageComponent implements OnInit {
     this.message = 'You have successfully updated your information!';
     this.displayConfirmation = true;
   }
-
-  protected readonly GenderEnum = GenderEnum;
 }

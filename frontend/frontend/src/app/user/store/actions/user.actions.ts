@@ -24,6 +24,7 @@ export const UserActions = createActionGroup({
       age?: number,
     }>(),
     load: props<{ id: number }>(),
+    loadCurrent: props<{ id: number }>(),
     loadAll: props<{ currentUserId: number; city?: string, country?: string, language?: string, page?: number }>(),
     update: props<{
       userId: number,

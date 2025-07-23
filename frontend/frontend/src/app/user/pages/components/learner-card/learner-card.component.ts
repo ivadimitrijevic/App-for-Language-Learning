@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Learner } from '../../../utils/types/learner.type';
 import { UserPicturePlaceholderPipe } from '../../../pipes/user-picture-placeholder.pipe';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 /**
  * LearnerCard component
@@ -10,7 +11,9 @@ import { UserPicturePlaceholderPipe } from '../../../pipes/user-picture-placehol
   selector: 'app-learner-card',
   standalone: true,
   imports: [
-    UserPicturePlaceholderPipe
+    UserPicturePlaceholderPipe,
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './learner-card.component.html',
   styleUrl: './learner-card.component.scss'

@@ -12,6 +12,7 @@ export const UserApiActions = createActionGroup({
     loginFailure: props<{ message: string }>(),
     registerSuccess: props<{ user: User }>(),
     loadSuccess: props<{ user: User }>(),
+    loadCurrentSuccess: props<{ currentUser: User }>(),
     loadAllSuccess: props<{ data: any }>(),
     updateSuccess: props<{ user: User }>(),
     loadAllAdminSuccess: props<{ data: any }>(),

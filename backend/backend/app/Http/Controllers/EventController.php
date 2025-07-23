@@ -51,6 +51,8 @@ class EventController extends Controller
             'picture' => $request->picture,
         ]);
 
+        $event->users()->attach($request->eventMaker);
+
         return response()->json(new EventResource($event));
     }
     /**

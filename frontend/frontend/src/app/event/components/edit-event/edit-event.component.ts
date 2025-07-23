@@ -66,6 +66,7 @@ export class EditEventComponent implements OnInit {
     this.description = this.event.description;
     this.language = this.event.language;
     this.maxPeople = this.event.maxPeople;
+    this.picture = this.event.picture;
   }
   /**
    * Method for setting city and country

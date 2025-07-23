@@ -1,4 +1,4 @@
-@if (currentUser; as user) {
+@if (currentUser$ | async; as user) {
   <div class="flex">
     <div class="flex flex-col w-[70%]">
       <app-header [currentUser]="user"
@@ -10,7 +10,12 @@
       </app-header>
       <div class="user-information">
         <div>
+          @if (user.picture && user.picture.length) {
+            <img src="{{user.picture}}" alt="user-picture" class="user-picture">
+          }
+          @else {
           <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+          }
         </div>
         <div class="flex flex-col">
           @if (!editMode) {
@@ -26,16 +31,13 @@
             @if (user.description){
               <div class="mb-[1rem]"><span class="font-semibold">Description:</span> {{ user.description }}</div>
             }
-            @if (user.picture) {
-              <div class="mb-[1rem]"><span class="font-semibold">Picture:</span> {{ user.picture }}</div>
-            }
             <div class="mb-[1rem]"><span class="font-semibold">City:</span> {{ user.city }}</div>
             <div class="mb-[1rem]"><span class="font-semibold">Country:</span> {{ user.country }}</div>
             <div class="mb-[1rem]"><span class="font-semibold">Email:</span> {{ user.email }}</div>
           } @else {
             <div class="flex mb-[1rem] items-center">
               <div class="font-semibold">Name:</div>
-              <input class="custom-input ml-4" type="text"[(ngModel)]="name">
+              <input class="custom-input ml-4" type="text" [(ngModel)]="name">
             </div>
             <div class="flex mb-[1rem] items-center">
               <div class="font-semibold">Surname:</div>

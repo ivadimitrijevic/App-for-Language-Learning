@@ -1,5 +1,9 @@
 <div class="learner-card-content">
-  <div class="picture-placeholder">{{ learner.name | picturePlaceholder : learner.surname }}</div>
+  @if (learner.picture  && learner.picture.trim() !== '') {
+    <img src="{{learner.picture}}" alt="learner-picture" class="learner-picture">
+  } @else {
+    <div class="picture-placeholder">{{ learner.name | picturePlaceholder : learner.surname }}</div>
+  }
   <div class="flex flex-col w-full">
     <div class="flex w-full">
       <div class="text-lg text-indigo font-semibold mb-2 cursor-pointer" (click)="openedDetails.emit(learner.id)">{{ learner.name }} {{ learner.surname }}</div>

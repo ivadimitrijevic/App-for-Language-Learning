@@ -19,7 +19,6 @@ import { ConfirmationPopUpComponent } from '../../../messages-pop-up/confirmatio
     SelectLanguageComponent,
     SelectCityComponent,
     FormsModule,
-    ConfirmationPopUpComponent
   ],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.scss'
@@ -66,7 +65,7 @@ export class CreateEventComponent {
    */
   public createEvent() {
     this.store.dispatch(EventActions.create({
-      eventMaker: 3,
+      eventMaker: this.currentUser.id,
       name: this.name,
       description: this.description,
       maxPeople: this.maxPeople,
@@ -76,6 +75,7 @@ export class CreateEventComponent {
       country: this.country,
       address: this.address,
       language: this.language,
+      picture: this.picture,
     }));
     this.closingAction.emit(true);
   }
