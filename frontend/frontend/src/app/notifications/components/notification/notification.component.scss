@@ -16,14 +16,15 @@
 
     .notification-card {
       display: flex;
-      border: 1px solid theme('colors.lilac-light');
+      //border: 1px solid theme('colors.lilac-light');
+      border: 1px solid theme('colors.indigo');
       border-radius: 10px;
-      background-color: theme('colors.lilac-light');
+      //background-color: theme('colors.lilac-light');
       margin-bottom: 1rem;
       padding: 1rem;
 
       .seen-chip {
-        background-color: theme('colors.teal');
+        background-color: theme('colors.orange-strong');
         height: 7px;
         width: 10px;
         border-radius: 50%;

@@ -187,7 +187,7 @@ class UserController extends Controller
                     'city' => $user->city,
                     'country' => $user->country,
                     'email' => $user->email,
-                    'learningLanguages' => LanguageResource::collection($user->language),
+                    'learningLanguages' => LanguageResource::collection($user->language->where('know', false)),
                     'picture' => $user->picture
                 ];
             });

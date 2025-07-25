@@ -1,6 +1,10 @@
 <div class="admin-user-card-content">
   <div class="flex">
-    <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+    @if (user.picture  && user.picture.trim() !== '') {
+      <img src="{{user.picture}}" alt="user-picture" class="user-picture">
+    } @else {
+      <div class="picture-placeholder">{{ user.name | picturePlaceholder : user.surname }}</div>
+    }
     <div class="flex flex-col mr-10 w-48">
       <div class="mb-2 text-lg font-bold text-indigo">{{ user.name }} {{ user.surname }}</div>
       <div class="text-gray">{{ user.email }}</div>
